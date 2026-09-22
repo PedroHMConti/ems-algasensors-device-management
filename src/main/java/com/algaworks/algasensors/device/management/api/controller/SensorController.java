@@ -22,6 +22,25 @@ public class SensorController {
 
     private final SensorRepository sensorRepository;
 
+    @DeleteMapping("{sensorId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable TSID sensorId) {
+        Sensor sensor = sensorRepository.findById(new SensorId(sensorId)).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        sensorRepository.delete(sensor);
+    }
+
+    @PutMapping("{sensorId}")
+    public SensorOutput update(@PathVariable TSID sensorId, @RequestBody SensorInput newSensorInput) {
+        Sensor sensor = sensorRepository.findById(new SensorId(sensorId)).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        sensor.setName(newSensorInput.getName());
+        sensor.setIp(newSensorInput.getIp());
+        sensor.setLocation(newSensorInput.getLocation());
+        sensor.setProtocol(newSensorInput.getProtocol());
+        sensor.setModel(newSensorInput.getModel());
+        sensor = sensorRepository.saveAndFlush(sensor);
+        return converteToModel(sensor);
+    }
+
     @GetMapping()
     public Page<SensorOutput> search(@PageableDefault Pageable pageable){
         Page<Sensor> page = sensorRepository.findAll(pageable);

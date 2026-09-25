@@ -29,7 +29,7 @@ public class SensorController {
     public void delete(@PathVariable TSID sensorId) {
         Sensor sensor = sensorRepository.findById(new SensorId(sensorId)).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         sensorRepository.delete(sensor);
-        sensorMonitoringClient.disableMonitoring(sensorId);
+        sensorMonitoringClient.unableMonitoring(sensorId);
     }
 
     @PutMapping("{sensorId}/enable")
@@ -42,11 +42,11 @@ public class SensorController {
     }
     @DeleteMapping("{sensorId}/enable")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void disenable(@PathVariable TSID sensorId) {
+    public void unable(@PathVariable TSID sensorId) {
         Sensor sensor = sensorRepository.findById(new SensorId(sensorId)).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         sensor.setEnabled(false);
         sensorRepository.saveAndFlush(sensor);
-        sensorMonitoringClient.enableMonitoring(sensorId);
+        sensorMonitoringClient.unableMonitoring(sensorId);
     }
 
     @PutMapping("{sensorId}")

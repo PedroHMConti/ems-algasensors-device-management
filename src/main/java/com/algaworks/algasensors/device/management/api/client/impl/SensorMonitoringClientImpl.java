@@ -1,14 +1,11 @@
 package com.algaworks.algasensors.device.management.api.client.impl;
 
 import com.algaworks.algasensors.device.management.api.client.SensorMonitoringClient;
+import com.algaworks.algasensors.device.management.api.model.SensorMonitoringOutput;
 import io.hypersistence.tsid.TSID;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.client.ClientHttpRequestFactory;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
-import java.time.Duration;
 
 @Component
 public class SensorMonitoringClientImpl implements SensorMonitoringClient {
@@ -34,5 +31,13 @@ public class SensorMonitoringClientImpl implements SensorMonitoringClient {
                 .uri("/api/sensors/{sensorId}/monitoring/enable",sensorId)
                 .retrieve()
                 .toBodilessEntity();
+    }
+
+    @Override
+    public SensorMonitoringOutput getDetail(TSID sensorId) {
+        return restClient.get()
+                .uri("/api/sensors/{sensorId}/monitoring",sensorId)
+                .retrieve()
+                .body(SensorMonitoringOutput.class);
     }
 }

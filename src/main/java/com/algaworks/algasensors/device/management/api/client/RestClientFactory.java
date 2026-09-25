@@ -1,5 +1,4 @@
-package com.algaworks.algasensors.device.management.api.client.impl;
-
+package com.algaworks.algasensors.device.management.api.client;
 
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.client.ClientHttpRequestFactory;
@@ -12,14 +11,15 @@ import java.time.Duration;
 @Component
 public class RestClientFactory {
 
-    public RestClient temperatureMonitoringRestClient(){
+    public RestClient temperatureMonitoringRestClient() {
         return RestClient.builder().baseUrl("http://localhost:8082")
                 .requestFactory(generateClientHttpRequestFactory())
-                .defaultStatusHandler(HttpStatusCode::isError, ((request, response) -> {
-                    throw new SensorMonitoringException();
-                }))
+                .defaultStatusHandler(HttpStatusCode::isError, (request, response) -> {
+                    throw new SensorMonitoringClientBadGatewayException();
+                })
                 .build();
     }
+
     private ClientHttpRequestFactory generateClientHttpRequestFactory() {
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
 
@@ -28,4 +28,5 @@ public class RestClientFactory {
 
         return factory;
     }
+
 }

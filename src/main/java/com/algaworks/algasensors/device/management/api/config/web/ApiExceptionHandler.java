@@ -1,6 +1,6 @@
 package com.algaworks.algasensors.device.management.api.config.web;
 
-import com.algaworks.algasensors.device.management.api.client.impl.SensorMonitoringException;
+import com.algaworks.algasensors.device.management.api.client.SensorMonitoringClientBadGatewayException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -29,8 +29,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         problemDetail.setType(URI.create("/errors/gateway-timeout"));
         return problemDetail;
     }
-    @ExceptionHandler(SensorMonitoringException.class)
-    public ProblemDetail handle(SensorMonitoringException exception) {
+    @ExceptionHandler(SensorMonitoringClientBadGatewayException.class)
+    public ProblemDetail handle(SensorMonitoringClientBadGatewayException exception) {
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_GATEWAY);
 
         problemDetail.setTitle("Bad Gateway ");

@@ -1,4 +1,4 @@
-package com.algaworks.algasensors.device.management.api.client.impl;
+package com.algaworks.algasensors.device.management.api.client;
 
 
 import lombok.NoArgsConstructor;
@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_GATEWAY)
 @NoArgsConstructor
-public class SensorMonitoringException extends RuntimeException {
-    public SensorMonitoringException(String message) {
+public class SensorMonitoringClientBadGatewayException extends RuntimeException {
+    public SensorMonitoringClientBadGatewayException(String message) {
         super(message);
     }
 }
